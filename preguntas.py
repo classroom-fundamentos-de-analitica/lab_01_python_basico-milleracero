@@ -21,7 +21,14 @@ def pregunta_01():
     214
 
     """
-    return
+    acum = 0
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            acum+=int(line[1])
+    
+    return acum
+
 
 
 def pregunta_02():
@@ -39,7 +46,15 @@ def pregunta_02():
     ]
 
     """
-    return
+    cuenta ={}
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            if line[0] in cuenta:
+                cuenta[line[0]]+=1
+            else:
+                cuenta[line[0]]=1
+    return (sorted(cuenta.items()))
 
 
 def pregunta_03():
@@ -57,7 +72,16 @@ def pregunta_03():
     ]
 
     """
-    return
+
+    cuenta ={}  
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            if line[0] in cuenta:
+                cuenta[line[0]]+=int(line[1])
+            else:
+                cuenta[line[0]]=int(line[1])          
+    return (sorted(cuenta.items()))
 
 
 def pregunta_04():
@@ -82,8 +106,18 @@ def pregunta_04():
     ]
 
     """
-    return
 
+    cuenta ={}  
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            mes = line[2].split("-")[1]
+            if mes in cuenta:
+                cuenta[mes]+=1
+            else:
+                cuenta[mes]=1
+    return(sorted(cuenta.items()))
+   
 
 def pregunta_05():
     """
@@ -100,7 +134,26 @@ def pregunta_05():
     ]
 
     """
-    return
+    cuenta ={}  
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+
+            if line[0] in cuenta:
+                if int(line[1]) > int(cuenta[line[0]][0]):
+                    cuenta[line[0]][0]=int(line[1])
+
+                elif int(line[1]) < int(cuenta[line[0]][1]):
+                    cuenta[line[0]][1]=int(line[1]) 
+
+            else:
+                cuenta[line[0]]=[int(line[1]),int(line[1])]
+    result = sorted(cuenta.items())
+    max_min = []
+    for i in result:
+        max_min.append((i[0],i[1][0],i[1][1]))
+    return max_min
+
 
 
 def pregunta_06():
@@ -125,7 +178,33 @@ def pregunta_06():
     ]
 
     """
-    return
+
+    cuentas = {}    
+
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            dic = line[4].split(",")
+            for i in dic:
+                clave = i.split(":")[0]
+                
+                valor = int(i.split(":")[1])
+
+                if clave in cuentas:
+                    if valor > cuentas[clave][0]:
+                        cuentas[clave][0] = valor
+                    elif valor < cuentas[clave][1]:
+                        cuentas[clave][1] = valor
+                else:
+                    cuentas[clave] = [valor,valor]
+    result = sorted(cuentas.items())    
+    max_min = []
+    for i in result:
+        max_min.append((i[0],i[1][1],i[1][0]))
+
+    return max_min
+
+    
 
 
 def pregunta_07():
@@ -149,7 +228,16 @@ def pregunta_07():
     ]
 
     """
-    return
+
+    cuenta ={}
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            if line[1] in cuenta:
+                cuenta[line[1]].append(line[0])
+            else:
+                cuenta[line[1]]=[line[0]]
+    return sorted(cuenta.items())
 
 
 def pregunta_08():
@@ -174,7 +262,22 @@ def pregunta_08():
     ]
 
     """
-    return
+    cuenta ={}
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            if line[1] in cuenta:
+                if line[0] not in cuenta[line[1]]:
+                    cuenta[line[1]].add(line[0])
+            else:
+                cuenta[line[1]]={line[0]}
+    
+
+    result = []
+    for i in sorted(cuenta.items()):
+        result.append((int(i[0]),sorted(list(i[1]))))
+    return result
+ 
 
 
 def pregunta_09():
@@ -197,7 +300,20 @@ def pregunta_09():
     }
 
     """
-    return
+    cuenta ={}  
+    with open("data.csv") as f: 
+        for line in f:
+            line = line.split()
+            dic = line[4].split(",")
+            for i in dic:
+                clave = i.split(":")[0]
+                if clave in cuenta:
+                    cuenta[clave]+=1
+                else:
+                    cuenta[clave]=1
+    result = dict(sorted(cuenta.items()))   
+   
+    return result
 
 
 def pregunta_10():
@@ -218,7 +334,16 @@ def pregunta_10():
 
 
     """
-    return
+
+    total = []
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            gg = line[3].split(",") 
+            dic = line[4].split(",")            
+            total.append((line[0],len(gg),len(dic)))
+
+    return total
 
 
 def pregunta_11():
@@ -239,9 +364,19 @@ def pregunta_11():
 
 
     """
-    return
-
-
+    cuenta ={}  
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            dic = line[3].split(",")
+            for i in dic:
+                if i in cuenta:
+                    cuenta[i]+=int(line[1])
+                else:
+                    cuenta[i]=int(line[1])
+    result = dict(sorted(cuenta.items()))
+    return result
+ 
 def pregunta_12():
     """
     Genere un diccionario que contengan como clave la columna 1 y como valor la suma de
@@ -257,4 +392,21 @@ def pregunta_12():
     }
 
     """
-    return
+    cuenta ={}
+    with open("data.csv") as f:
+        for line in f:
+            line = line.split()
+            clave = (line[0]) 
+            dic = line[4].split(",")
+            for i in dic:
+                
+                valor = int(i.split(":")[1])
+                if clave in cuenta:
+                    cuenta[clave]+=valor
+                else:
+                    cuenta[clave]=valor
+
+    result = dict(sorted(cuenta.items()))
+    
+    return result
+ 
